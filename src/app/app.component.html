@@ -1,17 +1,9 @@
 <app-header></app-header>
 <br>
 <main>
-  <!-- HERES THE PARENT COMPONENT -->
-  <!-- `$event` allows to pass the new post -->
-   <!-- PASS THE POST FROM HERE...(a) -->
-  <app-post-create (postCreated)="onPostAdded($event)" ></app-post-create>
+  <!-- 01 -->
+  <app-post-create></app-post-create>
   <hr>
-  <!-- (a) ... TO HERE -->
-    <!-- Control flow is:
-      1) `postCreated` from `app-post-create`
-      2) `$event` to `AppComponent`
-      3) `storedPosts` from `AppComponent`
-      4) `posts` in `app-post-list`
-    -->
-  <app-post-list [posts]="storedPosts"></app-post-list>
+  <!-- 02 -->
+  <app-post-list></app-post-list>
 </main>

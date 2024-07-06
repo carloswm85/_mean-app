@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 import { MaterialModule } from '../../material/material.module';
-import { Post } from '../post.model';
 import { CommonModule } from '@angular/common';
+import { PostsService } from '../post.service';
+import { Post } from '../post.model';
 
 @Component({
   selector: 'app-post-create',
@@ -17,17 +18,13 @@ export class PostCreateComponent {
   enteredTitle = '';
   post: Post | undefined;
 
-  // This information GOES TO the parent component
-  @Output() postCreated = new EventEmitter<Post>();
+  constructor(public postsService: PostsService) {}
 
   onAddPost(form: NgForm) {
     if (form.invalid) {
       return;
     }
-    this.post = {
-      title: form.value.title,
-      content: form.value.content,
-    };
-    this.postCreated.emit(this.post);
+    this.post = this.postsService.addPost(form.value.title, form.value.content);
+    console.log(this.post);
   }
 }
