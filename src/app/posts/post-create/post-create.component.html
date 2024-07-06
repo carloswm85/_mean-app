@@ -4,13 +4,62 @@
   Event Binding: (click)
   Two Way Binding: [(ngModel)]
 -->
-
-<textarea rows="6" aria-label="textarea" [value]="enteredValue1" #postInput></textarea>
-<textarea rows="6" aria-label="textarea" [(ngModel)]="enteredValue2"></textarea>
-
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Content:</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="2"
+        aria-label="textarea"
+        [value]="enteredValue1"
+        #postInput
+      ></textarea>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" (click)="onAddPost1(postInput)">
+      Save Content 1
+    </button>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Answer 1:</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>{{ newPost1 }}</mat-card-content>
+</mat-card>
+<br>
 <hr>
-<button (click)="onAddPost1(postInput)">Save Content 1</button>
-<button (click)="onAddPost2()">Save Content 2</button>
 
-<p>{{ newPost1 }}</p>
-<p>{{ newPost2 }}</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Content:</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field>
+      <textarea
+        matInput
+        rows="2"
+        aria-label="textarea"
+        [value]="enteredValue2"
+        #postInput
+      ></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="onAddPost2()">
+      Save Content 2
+    </button>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Answer 2:</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    {{ newPost2 }}
+  </mat-card-content>
+</mat-card>
+<hr />
