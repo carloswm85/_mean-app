@@ -11,9 +11,9 @@ import { MaterialModule } from '../../material/material.module';
   styleUrl: './post-create.component.css',
 })
 export class PostCreateComponent {
-  enteredValue1 = 'CONTENT 1';
+  enteredValue1 = 'CONTENT';
   enteredValue2 = 'CONTENT 2';
-  newPost1 = 'Empty 1';
+  newPost1 = '"Empty content"';
   newPost2 = 'Empty 2';
 
   onAddPost1(postInput: HTMLTextAreaElement) {
