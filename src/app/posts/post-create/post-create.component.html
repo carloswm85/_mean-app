@@ -1,1 +1,16 @@
-<p>post-create works!</p>
+<!--
+  String Interpolation: {{ newPost1 }}
+  Property Binding: [value]="enteredValue1"
+  Event Binding: (click)
+  Two Way Binding: [(ngModel)]
+-->
+
+<textarea rows="6" aria-label="textarea" [value]="enteredValue1" #postInput></textarea>
+<textarea rows="6" aria-label="textarea" [(ngModel)]="enteredValue2"></textarea>
+
+<hr>
+<button (click)="onAddPost1(postInput)">Save Content 1</button>
+<button (click)="onAddPost2()">Save Content 2</button>
+
+<p>{{ newPost1 }}</p>
+<p>{{ newPost2 }}</p>
