@@ -4,39 +4,49 @@
   Event Binding: (click)
   Two Way Binding: [(ngModel)]
 -->
+
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>POST</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <!-- 01 -->
-    <mat-form-field>
-      <mat-label for="title">Title</mat-label>
-      <input
-        title="This is a title"
-        matInput
-        id="title"
-        name="title"
-        type="text"
-        [(ngModel)]="enteredTitle"
-      />
-    </mat-form-field>
-    <!-- 02 -->
-    <mat-form-field>
-      <mat-label for="content">Content</mat-label>
-      <textarea
-        id="content"
-        name="content"
-        matInput
-        rows="2"
-        aria-label="textarea"
-        [(ngModel)]="enteredContent"
-      ></textarea>
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="onAddPost()">
-      Save Post
-    </button>
-  </mat-card-content>
+  <!-- FORM -->
+  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+    <mat-card-header>
+      <mat-card-title>POST</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- 01 -->
+      <mat-form-field>
+        <mat-label for="title">Title</mat-label>
+        <input
+          title="This is a title"
+          matInput
+          type="text"
+          name="title"
+          ngModel
+          required
+          minlength="3"
+          #title="ngModel"
+        />
+        <!-- This "title" belongs to #title -->
+        <mat-error *ngIf="title">Please, enter a post title.</mat-error>
+      </mat-form-field>
+      <!-- 02 -->
+      <mat-form-field>
+        <mat-label for="content">Content</mat-label>
+        <textarea
+          name="content"
+          matInput
+          rows="2"
+          aria-label="textarea"
+          ngModel
+          required
+          #content="ngModel"
+        ></textarea>
+        <mat-error *ngIf="content">Please, enter a post content.</mat-error>
+      </mat-form-field>
+      <hr class="transparent">
+      <!-- BUTTON -->
+      <button type="submit" mat-raised-button color="accent">Save Post</button>
+    </mat-card-content>
+  </form>
 </mat-card>
 <br />
 <mat-card appearance="outlined">

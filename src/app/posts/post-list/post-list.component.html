@@ -6,7 +6,7 @@
   >
     <!-- 1 -->
     <mat-expansion-panel-header>
-      <mat-panel-title> {{ post.title }} </mat-panel-title>
+      <mat-panel-title> <b>{{ post.title | uppercase }}</b> </mat-panel-title>
       <mat-panel-description>
         Currently: {{ panelOpenState() ? "Open" : "Closed" }}
       </mat-panel-description>
