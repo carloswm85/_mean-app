@@ -1,7 +1,11 @@
 <app-header></app-header>
 <br>
 <main>
-  <app-post-create></app-post-create>
+  <!-- HERES THE PARENT COMPONENT -->
+  <!-- `$event` allows to pass the new post -->
+   <!-- PASS THE POST FROM HERE... -->
+  <app-post-create (postCreated)="onPostAdded($event)" ></app-post-create>
   <hr>
-  <app-post-list></app-post-list>
+  <!-- ... TO HERE -->
+  <app-post-list [posts]="storedPosts"></app-post-list>
 </main>

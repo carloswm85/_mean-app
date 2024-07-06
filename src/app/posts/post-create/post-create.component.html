@@ -6,21 +6,35 @@
 -->
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Content:</mat-card-title>
+    <mat-card-title>POST</mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <!-- 01 -->
     <mat-form-field>
+      <mat-label for="title">Title</mat-label>
+      <input
+        title="This is a title"
+        matInput
+        id="title"
+        name="title"
+        type="text"
+        [(ngModel)]="enteredTitle"
+      />
+    </mat-form-field>
+    <!-- 02 -->
+    <mat-form-field>
+      <mat-label for="content">Content</mat-label>
       <textarea
+        id="content"
+        name="content"
         matInput
         rows="2"
         aria-label="textarea"
-        [value]="enteredValue1"
-        #postInput
+        [(ngModel)]="enteredContent"
       ></textarea>
     </mat-form-field>
-    <br />
-    <button mat-raised-button color="primary" (click)="onAddPost1(postInput)">
-      Save Content
+    <button mat-raised-button color="primary" (click)="onAddPost()">
+      Save Post
     </button>
   </mat-card-content>
 </mat-card>
@@ -29,7 +43,12 @@
   <mat-card-header>
     <mat-card-title>Latest Answer:</mat-card-title>
   </mat-card-header>
-  <mat-card-content>{{ newPost1 }}</mat-card-content>
+  <mat-card-content *ngIf="post !== undefined"
+    >{{ post.title }} AND {{ post.content }}</mat-card-content
+  >
+  <mat-card-content *ngIf="post === undefined"
+    ><i>No content yet.</i></mat-card-content
+  >
 </mat-card>
 <br />
 

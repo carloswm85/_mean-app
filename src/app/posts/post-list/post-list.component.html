@@ -1,4 +1,4 @@
-<mat-accordion *ngIf="posts.length < 1">
+<mat-accordion *ngIf="posts.length > 0">
   <mat-expansion-panel
     (opened)="panelOpenState.set(true)"
     (closed)="panelOpenState.set(false)"
@@ -16,4 +16,6 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<p class="mat-body-1 info-text" *ngIf="posts.length <= 0">No Posts Added Yet!</p>
+<p class="mat-body-1 info-text" *ngIf="posts.length <= 0">
+  No Posts Added Yet!
+</p>

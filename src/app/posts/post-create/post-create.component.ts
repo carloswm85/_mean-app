@@ -1,25 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MaterialModule } from '../../material/material.module';
+import { Post } from '../post.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-post-create',
   standalone: true,
-  imports: [FormsModule, MaterialModule],
+  imports: [FormsModule, MaterialModule, CommonModule],
   templateUrl: './post-create.component.html',
   styleUrl: './post-create.component.css',
 })
 export class PostCreateComponent {
-  enteredValue1 = 'CONTENT';
-  enteredValue2 = 'CONTENT 2';
-  newPost1 = '"Empty content"';
-  newPost2 = 'Empty 2';
+  enteredContent = '';
+  enteredTitle = '';
+  post: Post | undefined;
 
-  onAddPost1(postInput: HTMLTextAreaElement) {
-    this.newPost1 = postInput.value;
-  }
-  onAddPost2() {
-    this.newPost2 = this.enteredValue2;
+  // This information GOES TO the parent component
+  @Output() postCreated = new EventEmitter();
+
+  onAddPost() {
+    this.post = {
+      title: this.enteredTitle,
+      content: this.enteredContent,
+    };
+
+    this.postCreated.emit(this.post);
   }
 }

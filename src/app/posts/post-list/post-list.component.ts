@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
 import { CommonModule } from '@angular/common';
 import { Post } from '../post.model';
@@ -18,6 +18,8 @@ export class PostListComponent {
     { title: 'SECOND Post', content: " This is the SECOND post's content" },
     { title: 'THIRD Post', content: " This is the THIRD post's content" },
   ]; */
-  posts: Post[] = [];
+
+  // This information COMES FROM the parent component
+  @Input() posts: Post[] = [];
 }
 
