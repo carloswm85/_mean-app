@@ -1,0 +1,5 @@
+/* This `:host` selector targets the component itself */
+:host {
+  display: block;
+  margin-top: 1rem;
+}
