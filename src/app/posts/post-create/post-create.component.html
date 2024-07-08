@@ -27,6 +27,7 @@
           required
           minlength="3"
           #title="ngModel"
+          placeholder="Post Title"
         />
         <!-- Error Message (there is two ways of doing this) -->
         <!-- THIS ONE: This "title" belongs to #title -->
@@ -46,13 +47,14 @@
           ngModel
           required
           #content="ngModel"
+          placeholder="Post Content"
         ></textarea>
         <!-- Error Message -->
         <mat-error *ngIf="content">Please, enter a post content.</mat-error>
       </mat-form-field>
       <hr class="transparent" />
       <!-- BUTTON -->
-      <button type="submit" mat-raised-button color="accent">Save Post</button>
+      <button type="submit" mat-raised-button color="primary">SAVE POST</button>
     </mat-card-content>
   </form>
 </mat-card>

@@ -6,13 +6,21 @@
   >
     <!-- 1 -->
     <mat-expansion-panel-header>
-      <mat-panel-title> <b>{{ post.title | uppercase }}</b> </mat-panel-title>
+      <mat-panel-title>
+        <b>{{ post.title | uppercase }}</b>
+      </mat-panel-title>
       <mat-panel-description>
         Currently: {{ panelOpenState() ? "Open" : "Closed" }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <!-- 2 -->
     <p>{{ post.content }}</p>
+
+    <!-- BUTTONS -->
+    <mat-action-row>
+      <button mat-button color="accent">EDIT</button>
+      <button mat-button color="warn">DELETE</button>
+    </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 

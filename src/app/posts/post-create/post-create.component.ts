@@ -27,6 +27,6 @@ export class PostCreateComponent {
     // From the actual #postForm="ngForm" DOM object
     // "name"="content" provides `form.value.content`
     this.post = this.postsService.addPost(form.value.title, form.value.content);
-    console.log(this.post);
+    form.resetForm();
   }
 }
