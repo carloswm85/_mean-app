@@ -13,7 +13,8 @@
     "rebuild": "npm run clean && npm install && rmdir /s /q dist && npm run build --prod",
     "kill": "npx kill-port 4200",
     "lint": "ng lint",
-    "lintf": "ng lint --fix"
+    "lintf": "ng lint --fix",
+    "start:server": "nodemon server.js"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +52,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "nodemon": "^3.1.4",
     "typescript": "~5.4.2"
   }
 }
