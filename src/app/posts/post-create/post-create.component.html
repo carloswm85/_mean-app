@@ -5,8 +5,11 @@
   Two Way Binding: [(ngModel)]
 -->
 
+<!--
+  Form explanation: https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/learn/lecture/10416268#overview
+-->
 <mat-card>
-  <!-- FORM -->
+  <!-- FORM: #postForm="ngForm" gives access to the entire form -->
   <form (submit)="onAddPost(postForm)" #postForm="ngForm">
     <mat-card-header>
       <mat-card-title>POST</mat-card-title>
@@ -25,8 +28,12 @@
           minlength="3"
           #title="ngModel"
         />
-        <!-- This "title" belongs to #title -->
+        <!-- Error Message (there is two ways of doing this) -->
+        <!-- THIS ONE: This "title" belongs to #title -->
         <mat-error *ngIf="title">Please, enter a post title.</mat-error>
+        <!-- OR THIS ONE:
+        <mat-error *ngIf="postForm.getControl('title').invalid">Please, enter a post title.</mat-error>
+        -->
       </mat-form-field>
       <!-- 02 -->
       <mat-form-field>
@@ -40,9 +47,10 @@
           required
           #content="ngModel"
         ></textarea>
+        <!-- Error Message -->
         <mat-error *ngIf="content">Please, enter a post content.</mat-error>
       </mat-form-field>
-      <hr class="transparent">
+      <hr class="transparent" />
       <!-- BUTTON -->
       <button type="submit" mat-raised-button color="accent">Save Post</button>
     </mat-card-content>
@@ -54,43 +62,9 @@
     <mat-card-title>Latest Post</mat-card-title>
   </mat-card-header>
   <mat-card-content *ngIf="post !== undefined"
-    >Title: {{ post.title }}<br>Content: {{ post.content }}</mat-card-content
+    >Title: {{ post.title }}<br />Content: {{ post.content }}</mat-card-content
   >
   <mat-card-content *ngIf="post === undefined"
     ><i>No content yet.</i></mat-card-content
   >
 </mat-card>
-<br />
-
-<!--
-<hr />
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Content:</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-form-field>
-      <textarea
-        matInput
-        rows="2"
-        aria-label="textarea"
-        [value]="enteredValue2"
-        #postInput
-      ></textarea>
-    </mat-form-field>
-    <button mat-raised-button color="accent" (click)="onAddPost2()">
-      Save Content 2
-    </button>
-  </mat-card-content>
-</mat-card>
-<br />
-<mat-card appearance="outlined">
-  <mat-card-header>
-    <mat-card-title>Answer 2:</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    {{ newPost2 }}
-  </mat-card-content>
-</mat-card>
-<hr />
- -->

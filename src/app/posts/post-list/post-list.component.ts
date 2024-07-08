@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
 import { CommonModule } from '@angular/common';
 import { Post } from '../post.model';
@@ -19,8 +19,6 @@ export class PostListComponent implements OnInit {
     { title: 'SECOND Post', content: " This is the SECOND post's content" },
     { title: 'THIRD Post', content: " This is the THIRD post's content" },
   ]; */
-
-  // This information COMES FROM the parent component
   posts: Post[] = [];
 
   constructor(public postsService: PostsService) {}
