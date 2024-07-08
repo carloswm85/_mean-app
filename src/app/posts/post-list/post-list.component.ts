@@ -1,8 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
 import { CommonModule } from '@angular/common';
 import { Post } from '../post.model';
 import { PostsService } from '../post.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post-list',
@@ -11,19 +12,29 @@ import { PostsService } from '../post.service';
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.css',
 })
-export class PostListComponent implements OnInit {
+export class PostListComponent implements OnInit, OnDestroy {
   readonly panelOpenState = signal(false);
+  posts: Post[] = [];
+  private postsSub!: Subscription;
 
   /* posts = [
     { title: 'FIRST Post', content: " This is the FIRST post's content" },
     { title: 'SECOND Post', content: " This is the SECOND post's content" },
     { title: 'THIRD Post', content: " This is the THIRD post's content" },
   ]; */
-  posts: Post[] = [];
 
   constructor(public postsService: PostsService) {}
 
   ngOnInit(): void {
-    this.posts = this.postsService.getPosts();
+    this.posts = this.postsService.getPosts(); // It will be empty the first time
+    // ONLY LISTEN TO CHANGES
+    // `subscribe` takes 3 possible arguments for: next, error or complete
+    this.postsSub = this.postsService.getPostUpdateListener().subscribe((emittedPosts: Post[]) => {
+      this.posts = emittedPosts;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.postsSub.unsubscribe();
   }
 }

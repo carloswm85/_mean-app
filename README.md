@@ -11,8 +11,9 @@
 
 # Content
 
-- MEAN Course [📺]()
+- MEAN Course [📺](https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/learn/lecture/13914132#overview)
 - Angular Material [📺](https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/learn/lecture/10416244#overview)
+- `Observables` explanation [📺](https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/learn/lecture/10416282#overview)
 
 ---
 
