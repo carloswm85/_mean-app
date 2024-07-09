@@ -35,6 +35,8 @@
       "type": "msedge",
       "name": "Launch Microsoft Edge",
       "request": "launch",
+      "sourceMaps": true,
+      "trace": true,
       "preLaunchTask": "npm: start",
       "webRoot": "${workspaceFolder}",
       "runtimeArgs": [

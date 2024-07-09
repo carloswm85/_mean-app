@@ -1,9 +1,30 @@
+/* GET ENVIRONMENT VARIABLES */
+require("dotenv").config();
+// That's it. `process.env` now has the keys and values you defined in your `.env` file
+let PASSW = process.env.PASSWORD_MONGODB;
+
 /* EXPRESS APP */
 const express = require("express");
 const bodyParser = require("body-parser"); // Import body-parser to parse incoming request bodies
+const mongoose = require("mongoose");
+
+// Models
+const Post = require("./models/post");
 
 // Create an instance of Express
 const app = express();
+
+/* Connection to Atlas MongoDB */
+mongoose
+  .connect(
+    `mongodb+srv://carlos:${PASSW}@cluster0.cacrtoz.mongodb.net/meanApp`
+  )
+  .then(() => {
+    console.log("Connected to DB!");
+  })
+  .catch(() => {
+    console.log("Connection failed!");
+  });
 
 // Middleware to parse JSON-encoded bodies
 app.use(bodyParser.json());
@@ -54,8 +75,14 @@ app.use((req, res, next) => {
 
 /* POST endpoint to create a new post */
 app.post("/api/posts", (req, res, next) => {
-  const post = req.body; // `body` is added by `body-parser`
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content,
+  });
   console.log(post);
+  // POST
+  // Mongoose will create the right quety for inserting the right query
+  post.save();
   res.status(201).json({ message: "Post added successfully" }); // Respond with 201 status and success message
 });
 
