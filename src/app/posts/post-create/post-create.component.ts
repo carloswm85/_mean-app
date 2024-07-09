@@ -20,13 +20,13 @@ export class PostCreateComponent {
 
   constructor(public postsService: PostsService) {}
 
-  onAddPost(form: NgForm) {
+  async onAddPost(form: NgForm) {
     if (form.invalid) {
       return;
     }
     // From the actual #postForm="ngForm" DOM object
     // "name"="content" provides `form.value.content`
-    this.post = this.postsService.addPost(form.value.title, form.value.content);
+    this.post = await this.postsService.addPost(form.value.title, form.value.content);
     form.resetForm();
   }
 }

@@ -1,7 +1,14 @@
 /* EXPRESS APP */
 const express = require("express");
+const bodyParser = require("body-parser"); // Import body-parser to parse incoming request bodies
+
 // Create an instance of Express
 const app = express();
+
+// Middleware to parse JSON-encoded bodies
+app.use(bodyParser.json());
+// Middleware to parse URL-encoded bodies
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /* CORS - Cross-Origin Resource Sharing */
 // https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
@@ -45,8 +52,15 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware to handle requests to the /api/posts route
-app.use("/api/posts", (req, res, next) => {
+/* POST endpoint to create a new post */
+app.post("/api/posts", (req, res, next) => {
+  const post = req.body; // `body` is added by `body-parser`
+  console.log(post);
+  res.status(201).json({ message: "Post added successfully" }); // Respond with 201 status and success message
+});
+
+// Middleware to handle GET requests to the /api/posts route
+app.get("/api/posts", (req, res, next) => {
   // Array of sample posts
   const posts = [
     {

@@ -19,13 +19,17 @@ export class PostsService {
   private postsUpdated = new Subject<Post[]>();
 
   /**
+   * The constructor initializes the service and injects the HttpClient service,
+   * which is used to make HTTP requests to the server.
    *
+   * @param http The HttpClient instance for making HTTP requests.
    */
   constructor(private http: HttpClient) {}
 
   /**
-   * Method to get the list of posts. The spread operator (...) creates a shallow copy
-   * of the posts array, ensuring that the original array cannot be modified by
+   * Method to get the list of posts from the server. It sends a GET request to the server,
+   * retrieves the posts, and updates the local posts array. The spread operator (...) creates
+   * a shallow copy of the posts array, ensuring that the original array cannot be modified by
    * the caller of this method.
    *
    * @returns A copy of the posts array.
@@ -39,6 +43,7 @@ export class PostsService {
       )
       .subscribe((postData) => {
         this.posts = postData.posts;
+        // Emit the updated posts array
         this.postsUpdated.next([...this.posts]);
       });
   }
@@ -57,18 +62,23 @@ export class PostsService {
 
   /**
    * Method to add a new post to the posts array.
-   * Creates a new Post object and adds it to the posts array.
-   * Then, emits an update to the postsUpdated Subject with the new list of posts.
+   * Sends a POST request to the server to save the new post. Once the post is successfully
+   * added to the server, it updates the local posts array and emits an update.
    *
    * @param title The title of the post.
    * @param content The content of the post.
-   * @returns The newly created Post object.
+   * @returns A Promise that resolves to the newly created Post object.
    */
-  addPost(title: string, content: string): Post {
-    const post: Post = { id: '', title: title, content: content };
-    this.posts.push(post);
-    // `next` emits a new value
-    this.postsUpdated.next([...this.posts]);
-    return post;
+  async addPost(title: string, content: string): Promise<Post> {
+    const newPost: Post = { id: '', title: title, content: content };
+    await this.http
+      .post<{ message: string }>('http://localhost:3000/api/posts', newPost)
+      .subscribe((responseData) => {
+        console.log(responseData.message);
+        this.posts.push(newPost);
+        // `next` emits a new value
+        this.postsUpdated.next([...this.posts]);
+      });
+    return newPost;
   }
 }
