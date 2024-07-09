@@ -81,9 +81,11 @@ export class PostsService {
   async addPost(title: string, content: string): Promise<Post> {
     const newPost: Post = { id: '', title: title, content: content };
     await this.http
-      .post<{ message: string }>('http://localhost:3000/api/posts', newPost)
+      .post<{ message: string, postId: string }>('http://localhost:3000/api/posts', newPost)
       .subscribe((responseData) => {
         console.log(responseData.message);
+        const postId = responseData.postId;
+        newPost.id = postId;
         this.posts.push(newPost);
         // `next` emits a new value
         this.postsUpdated.next([...this.posts]);

@@ -80,8 +80,15 @@ app.post("/api/posts", (req, res, next) => {
   console.log(post);
   // POST
   // Mongoose will create the right quety for inserting the right query
-  post.save();
-  res.status(201).json({ message: "Post added successfully" }); // Respond with 201 status and success message
+  post.save().then((createdPostResult) => {
+    // Respond with 201 status and success message
+    res
+      .status(201)
+      .json({
+        message: "The new post was added successfully to the MongoDB database!",
+        postId: createdPostResult._id,
+      });
+  });
 });
 
 // Middleware to handle GET requests to the /api/posts route
