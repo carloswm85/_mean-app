@@ -16,9 +16,7 @@ const app = express();
 
 /* Connection to Atlas MongoDB */
 mongoose
-  .connect(
-    `mongodb+srv://carlos:${PASSW}@cluster0.cacrtoz.mongodb.net/meanApp`
-  )
+  .connect(`mongodb+srv://carlos:${PASSW}@cluster0.cacrtoz.mongodb.net/meanApp`)
   .then(() => {
     console.log("Connected to DB!");
   })
@@ -88,26 +86,15 @@ app.post("/api/posts", (req, res, next) => {
 
 // Middleware to handle GET requests to the /api/posts route
 app.get("/api/posts", (req, res, next) => {
-  // Array of sample posts
-  const posts = [
-    {
-      id: "thisId1",
-      title: "First Server-Side Post",
-      content: "This first content is coming from the server.",
-    },
-    {
-      id: "thisId2",
-      title: "Second Server-Side Post",
-      content: "This second content is coming from the server.",
-    },
-    {
-      id: "thisId3",
-      title: "Third Server-Side Post",
-      content: "This third content is coming from the server.",
-    },
-  ];
-  // Respond with status 200 (OK) and send the posts as JSON
-  res.status(200).json({ message: "Posts fetched!", posts: posts });
+  Post.find().then(documents => {
+    // Respond with status 200 (OK) and send the posts as JSON
+    res
+      .status(200)
+      .json({
+        message: "Posts fetched successfully from the MongoDB database!",
+        posts: documents,
+      });
+  });
   // No need for next() as this is the last middleware in the chain for this route
 });
 
