@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
-import { Subject } from 'rxjs';
+import { map, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 /**
@@ -38,11 +38,20 @@ export class PostsService {
     // `...` makes a true copy of the posts
     /* return [...this.posts]; */
     this.http
-      .get<{ message: string; posts: Post[] }>(
-        'http://localhost:3000/api/posts'
+      .get<{
+        message: string;
+        // Define here the posts[] typing
+        posts: [{ title: string; content: string; _id: string }];
+      }>('http://localhost:3000/api/posts')
+      .pipe(
+        map((postData) => {
+          return postData.posts.map((post) => {
+            return { title: post.title, content: post.content, id: post._id };
+          });
+        })
       )
-      .subscribe((postData) => {
-        this.posts = postData.posts;
+      .subscribe((transformedPosts) => {
+        this.posts = transformedPosts;
         // Emit the updated posts array
         this.postsUpdated.next([...this.posts]);
       });
