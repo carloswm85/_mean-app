@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post.model';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 /**
  * The @Injectable decorator marks this class as one that participates in the
@@ -18,6 +19,11 @@ export class PostsService {
   private postsUpdated = new Subject<Post[]>();
 
   /**
+   *
+   */
+  constructor(private http: HttpClient) {}
+
+  /**
    * Method to get the list of posts. The spread operator (...) creates a shallow copy
    * of the posts array, ensuring that the original array cannot be modified by
    * the caller of this method.
@@ -26,7 +32,15 @@ export class PostsService {
    */
   getPosts() {
     // `...` makes a true copy of the posts
-    return [...this.posts];
+    /* return [...this.posts]; */
+    this.http
+      .get<{ message: string; posts: Post[] }>(
+        'http://localhost:3000/api/posts'
+      )
+      .subscribe((postData) => {
+        this.posts = postData.posts;
+        this.postsUpdated.next([...this.posts]);
+      });
   }
 
   /**
@@ -51,7 +65,7 @@ export class PostsService {
    * @returns The newly created Post object.
    */
   addPost(title: string, content: string): Post {
-    const post: Post = { title: title, content: content };
+    const post: Post = { id: '', title: title, content: content };
     this.posts.push(post);
     // `next` emits a new value
     this.postsUpdated.next([...this.posts]);

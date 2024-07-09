@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
 import { CommonModule } from '@angular/common';
 import { Post } from '../post.model';
-import { PostsService } from '../post.service';
+import { PostsService } from '../posts.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -26,12 +26,14 @@ export class PostListComponent implements OnInit, OnDestroy {
   constructor(public postsService: PostsService) {}
 
   ngOnInit(): void {
-    this.posts = this.postsService.getPosts(); // It will be empty the first time
+    this.postsService.getPosts(); // Trigger the posts from the server
     // ONLY LISTEN TO CHANGES
     // `subscribe` takes 3 possible arguments for: next, error or complete
-    this.postsSub = this.postsService.getPostUpdateListener().subscribe((emittedPosts: Post[]) => {
-      this.posts = emittedPosts;
-    });
+    this.postsSub = this.postsService
+      .getPostUpdateListener()
+      .subscribe((emittedPosts: Post[]) => {
+        this.posts = emittedPosts;
+      });
   }
 
   ngOnDestroy(): void {

@@ -3,7 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 
 import { MaterialModule } from '../../material/material.module';
 import { CommonModule } from '@angular/common';
-import { PostsService } from '../post.service';
+import { PostsService } from '../posts.service';
 import { Post } from '../post.model';
 
 @Component({
