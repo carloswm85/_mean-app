@@ -86,16 +86,23 @@ app.post("/api/posts", (req, res, next) => {
 
 // Middleware to handle GET requests to the /api/posts route
 app.get("/api/posts", (req, res, next) => {
-  Post.find().then(documents => {
+  Post.find().then((documents) => {
     // Respond with status 200 (OK) and send the posts as JSON
-    res
-      .status(200)
-      .json({
-        message: "Posts fetched successfully from the MongoDB database!",
-        posts: documents,
-      });
+    res.status(200).json({
+      message: "Posts fetched successfully from the MongoDB database!",
+      posts: documents,
+    });
   });
   // No need for next() as this is the last middleware in the chain for this route
+});
+
+/* DELETE */
+app.delete("/api/posts/:id", (req, res, next) => {
+  Post.deleteOne({ _id: req.params.id }).then((result) => {
+    console.log(result);
+    // then also send the response
+    res.status(200).json({ message: "Post deleted on server!" });
+  });
 });
 
 // Export the Express app instance for use in other parts of the application

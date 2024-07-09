@@ -90,4 +90,12 @@ export class PostsService {
       });
     return newPost;
   }
+
+  deletePost(postId: string) {
+    this.http.delete('http://localhost:3000/api/posts/' + postId)
+      // IT IS NECESSARY TO SUBSCRIBE, so the request is sent
+      .subscribe(() => {
+        console.log('Deleted on PostsService!');
+      });
+  }
 }
