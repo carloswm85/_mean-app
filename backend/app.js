@@ -71,6 +71,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// ======================================================================== POST
 /* POST endpoint to create a new post */
 app.post("/api/posts", (req, res, next) => {
   const post = new Post({
@@ -83,14 +84,15 @@ app.post("/api/posts", (req, res, next) => {
   post.save().then((createdPostResult) => {
     // Respond with 201 status and success message
     res
-      .status(201)
-      .json({
-        message: "The new post was added successfully to the MongoDB database!",
-        postId: createdPostResult._id,
-      });
+    .status(201)
+    .json({
+      message: "The new post was added successfully to the MongoDB database!",
+      postId: createdPostResult._id,
+    });
   });
 });
 
+// ===================================================================== GET ALL
 // Middleware to handle GET requests to the /api/posts route
 app.get("/api/posts", (req, res, next) => {
   Post.find().then((documents) => {
@@ -103,6 +105,7 @@ app.get("/api/posts", (req, res, next) => {
   // No need for next() as this is the last middleware in the chain for this route
 });
 
+// ================================================================== DELETE ONE
 /* DELETE */
 app.delete("/api/posts/:id", (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then((result) => {
