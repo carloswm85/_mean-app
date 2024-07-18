@@ -26,12 +26,12 @@ export class PostsService {
    */
   constructor(private http: HttpClient) {}
 
+  // =================================================================== GET ALL
   /**
-   * Method to get the list of posts from the server. It sends a GET request to the server,
-   * retrieves the posts, and updates the local posts array. The spread operator (...) creates
-   * a shallow copy of the posts array, ensuring that the original array cannot be modified by
-   * the caller of this method.
-   *
+   * Method to get the list of posts from the server. It sends a GET request to
+   * the server, retrieves the posts, and updates the local posts array. The
+   * spread operator (...) creates a shallow copy of the posts array, ensuring
+   * that the original array cannot be modified by the caller of this method.
    * @returns A copy of the posts array.
    */
   getPosts() {
@@ -57,18 +57,7 @@ export class PostsService {
       });
   }
 
-  /**
-   * Method to get an observable for post updates.
-   * The `asObservable` method converts the Subject into an Observable,
-   * which can be subscribed to by components to receive updates when posts change.
-   *
-   * This object will LISTEN but not EMIT.
-   * @returns An Observable that emits updates to the posts array.
-   */
-  getPostUpdateListener() {
-    return this.postsUpdated.asObservable();
-  }
-
+  // ================================================================== POST ONE
   /**
    * Method to add a new post to the posts array.
    * Sends a POST request to the server to save the new post. Once the post is successfully
@@ -81,7 +70,10 @@ export class PostsService {
   async addPost(title: string, content: string): Promise<Post> {
     const newPost: Post = { id: '', title: title, content: content };
     await this.http
-      .post<{ message: string, postId: string }>('http://localhost:3000/api/posts', newPost)
+      .post<{ message: string; postId: string }>(
+        'http://localhost:3000/api/posts',
+        newPost
+      )
       .subscribe((responseData) => {
         console.log(responseData.message);
         const postId = responseData.postId;
@@ -93,14 +85,29 @@ export class PostsService {
     return newPost;
   }
 
+  // ================================================================ DELETE ONE
   deletePost(postId: string) {
-    this.http.delete('http://localhost:3000/api/posts/' + postId)
+    this.http
+      .delete('http://localhost:3000/api/posts/' + postId)
       // IT IS NECESSARY TO SUBSCRIBE, so the request is sent
       .subscribe(() => {
         console.log('Deleted item (from PostsService)!');
-        const updatedPosts = this.posts.filter(post => post.id !== postId);
+        const updatedPosts = this.posts.filter((post) => post.id !== postId);
         this.posts = updatedPosts;
         this.postsUpdated.next([...this.posts]);
       });
+  }
+
+  // =========================================================== PRIVATE METHODS
+  /**
+   * Method to get an observable for post updates.
+   * The `asObservable` method converts the Subject into an Observable,
+   * which can be subscribed to by components to receive updates when posts change.
+   *
+   * This object will LISTEN but not EMIT.
+   * @returns An Observable that emits updates to the posts array.
+   */
+  getPostUpdateListener() {
+    return this.postsUpdated.asObservable();
   }
 }
