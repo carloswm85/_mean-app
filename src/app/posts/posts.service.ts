@@ -26,6 +26,22 @@ export class PostsService {
    */
   constructor(private http: HttpClient) {}
 
+  // =================================================================== GET ONE
+  /**
+   * This function retrieves a post by its id.
+   *
+   * @param {string} id - The id of the post to retrieve.
+   * @returns {object} A copy of the post object with the specified id.
+   *
+   * The function uses the `find` method to search the `posts` array for the first post
+   * object that has a matching id. It then uses the spread operator to create a new
+   * object that is a shallow copy of the found post object. This ensures that the
+   * original object in the array is not modified.
+   */
+  getPost(id: string): Post {
+    return { ...this.posts.find((p) => p.id == id) } as Post;
+  }
+
   // =================================================================== GET ALL
   /**
    * Method to get the list of posts from the server. It sends a GET request to
@@ -79,10 +95,21 @@ export class PostsService {
         const postId = responseData.postId;
         newPost.id = postId;
         this.posts.push(newPost);
+        console.log('oya', newPost);
         // `next` emits a new value
         this.postsUpdated.next([...this.posts]);
       });
     return newPost;
+  }
+
+  // ======================================================================= PUT
+  async updatePost(id: string, title: string, content: string) {
+    const updatedPost: Post = { id: id, title: title, content: content };
+    await this.http
+      .put('http://localhost:3000/api/posts/' + id, updatedPost)
+      .subscribe((response) => console.log(response));
+
+    return updatedPost;
   }
 
   // ================================================================ DELETE ONE

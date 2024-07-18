@@ -10,7 +10,7 @@
 -->
 <mat-card>
   <!-- FORM: #postForm="ngForm" gives access to the entire form -->
-  <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+  <form (submit)="onSavePost(postForm)" #postForm="ngForm">
     <mat-card-header>
       <mat-card-title>POST</mat-card-title>
     </mat-card-header>
@@ -23,7 +23,7 @@
           matInput
           type="text"
           name="title"
-          ngModel
+          [ngModel]="post.title"
           required
           minlength="3"
           #title="ngModel"
@@ -43,7 +43,7 @@
           matInput
           rows="1"
           aria-label="textarea"
-          ngModel
+          [ngModel]="post.content"
           required
           #content="ngModel"
         ></textarea>

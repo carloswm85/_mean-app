@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+
+/* It adds information about the client route we are currently on */
+import { ActivatedRoute } from '@angular/router';
 
 import { MaterialModule } from '../../material/material.module';
 import { CommonModule } from '@angular/common';
@@ -13,20 +16,53 @@ import { Post } from '../post.model';
   templateUrl: './post-create.component.html',
   styleUrl: './post-create.component.css',
 })
-export class PostCreateComponent {
+export class PostCreateComponent implements OnInit {
   enteredContent = '';
   enteredTitle = '';
-  post: Post | undefined;
+  private mode = 'create';
+  private postId: string | null;
+  public post: Post;
 
-  constructor(public postsService: PostsService) {}
+  // =============================================================== CONSTRUCTOR
+  constructor(
+    public postsService: PostsService,
+    public route: ActivatedRoute
+  ) { }
 
-  async onAddPost(form: NgForm) {
+  // ================================================================ LIFE CYCLE
+  ngOnInit(): void {
+    // Find out what is happening in the client routes, using an Observable
+    this.route.paramMap.subscribe((paramMap) => {
+      if (paramMap.has('postId')) {
+        this.mode = 'edit';
+        this.postId = paramMap.get('postId')!;
+        this.post = this.postsService.getPost(this.postId);
+      } else {
+        this.post = {id: '', title: '', content: ''};
+        this.mode = 'create';
+        this.postId = null;
+      }
+    });
+
+  }
+
+  // =========================================================== PRIVATE METHODS
+  async onSavePost(form: NgForm) {
     if (form.invalid) {
       return;
     }
-    // From the actual #postForm="ngForm" DOM object
-    // "name"="content" provides `form.value.content`
-    this.post = await this.postsService.addPost(form.value.title, form.value.content);
-    form.resetForm();
+
+    if (this.mode === "create") {
+      this.post = await this.postsService.addPost(
+        form.value.title,
+        form.value.content
+      );
+    } else {
+      this.post = await this.postsService.updatePost(
+        this.postId!,
+        form.value.title,
+        form.value.content
+      );
+    }
   }
 }

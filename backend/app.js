@@ -65,7 +65,7 @@ app.use((req, res, next) => {
   // Allow specific HTTP methods
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE, OPTIONS"
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
   );
   // Pass the request to the next middleware in the stack
   next();
@@ -83,12 +83,24 @@ app.post("/api/posts", (req, res, next) => {
   // Mongoose will create the right quety for inserting the right query
   post.save().then((createdPostResult) => {
     // Respond with 201 status and success message
-    res
-    .status(201)
-    .json({
+    res.status(201).json({
       message: "The new post was added successfully to the MongoDB database!",
       postId: createdPostResult._id,
     });
+  });
+});
+
+// ========================================================================= PUT
+app.put("/api/posts/:id", (req, res, next) => {
+  const post = new Post({
+    _id: req.body.id,
+    title: req.body.title,
+    content: req.body.content,
+  });
+
+  Post.updateOne({ _id: req.params.id }, post).then((result) => {
+    console.log(result);
+    res.status(200).json({ message: "Update successful!" });
   });
 });
 
@@ -106,7 +118,6 @@ app.get("/api/posts", (req, res, next) => {
 });
 
 // ================================================================== DELETE ONE
-/* DELETE */
 app.delete("/api/posts/:id", (req, res, next) => {
   Post.deleteOne({ _id: req.params.id }).then((result) => {
     console.log(result);
