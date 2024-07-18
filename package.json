@@ -14,7 +14,7 @@
     "kill": "npx kill-port 4200",
     "lint": "ng lint",
     "lintf": "ng lint --fix",
-    "start:server": "nodemon server.js"
+    "server": "nodemon server.js"
   },
   "private": true,
   "dependencies": {

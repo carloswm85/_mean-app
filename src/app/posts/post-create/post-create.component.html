@@ -27,7 +27,6 @@
           required
           minlength="3"
           #title="ngModel"
-          placeholder="Post Title"
         />
         <!-- Error Message (there is two ways of doing this) -->
         <!-- THIS ONE: This "title" belongs to #title -->
@@ -47,7 +46,6 @@
           ngModel
           required
           #content="ngModel"
-          placeholder="Post Content"
         ></textarea>
         <!-- Error Message -->
         <mat-error *ngIf="content">Please, enter a post content.</mat-error>
