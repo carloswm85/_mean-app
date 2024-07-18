@@ -1,0 +1,15 @@
+a {
+  text-decoration: none;
+  color: white;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.spacer {
+  /* Pushe the next element all the way to the other side */
+  flex: 1 1 auto;
+}
