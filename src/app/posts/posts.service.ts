@@ -38,8 +38,10 @@ export class PostsService {
    * object that is a shallow copy of the found post object. This ensures that the
    * original object in the array is not modified.
    */
-  getPost(id: string): Post {
-    return { ...this.posts.find((p) => p.id == id) } as Post;
+  getPost(id: string) {
+    return this.http.get<{ _id: string; title: string; content: string }>(
+      'http://localhost:3000/api/posts/' + id
+    );
   }
 
   // =================================================================== GET ALL

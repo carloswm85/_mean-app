@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 /* It adds information about the client route we are currently on */
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MaterialModule } from '../../material/material.module';
 import { CommonModule } from '@angular/common';
@@ -21,13 +21,14 @@ export class PostCreateComponent implements OnInit {
   enteredTitle = '';
   private mode = 'create';
   private postId: string | null;
-  public post: Post;
+  public post: Post | undefined;
 
   // =============================================================== CONSTRUCTOR
   constructor(
     public postsService: PostsService,
-    public route: ActivatedRoute
-  ) { }
+    public route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   // ================================================================ LIFE CYCLE
   ngOnInit(): void {
@@ -36,14 +37,19 @@ export class PostCreateComponent implements OnInit {
       if (paramMap.has('postId')) {
         this.mode = 'edit';
         this.postId = paramMap.get('postId')!;
-        this.post = this.postsService.getPost(this.postId);
+        this.postsService.getPost(this.postId).subscribe((postData) => {
+          this.post = {
+            id: postData._id,
+            title: postData.title,
+            content: postData.content,
+          };
+        });
       } else {
-        this.post = {id: '', title: '', content: ''};
+        this.post = { id: '', title: '', content: '' };
         this.mode = 'create';
         this.postId = null;
       }
     });
-
   }
 
   // =========================================================== PRIVATE METHODS
@@ -52,7 +58,7 @@ export class PostCreateComponent implements OnInit {
       return;
     }
 
-    if (this.mode === "create") {
+    if (this.mode === 'create') {
       this.post = await this.postsService.addPost(
         form.value.title,
         form.value.content
@@ -64,5 +70,6 @@ export class PostCreateComponent implements OnInit {
         form.value.content
       );
     }
+    this.router.navigate(['/']);
   }
 }
