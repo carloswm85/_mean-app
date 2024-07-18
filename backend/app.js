@@ -1,32 +1,33 @@
-/* GET ENVIRONMENT VARIABLES */
+//===================================================== IMPORTS ======================================================//
+
 require("dotenv").config();
 // That's it. `process.env` now has the keys and values you defined in your `.env` file
 let PASSW = process.env.PASSWORD_MONGODB;
 
-/* EXPRESS APP */
 const express = require("express");
 const bodyParser = require("body-parser"); // Import body-parser to parse incoming request bodies
 const mongoose = require("mongoose");
-
-// Models
-const Post = require("./models/post");
+const postRoutes = require("./routes/posts");
 
 // Create an instance of Express
 const app = express();
 
+//===================================================== SET UP =======================================================//
 /* Connection to Atlas MongoDB */
 mongoose
-  .connect(`mongodb+srv://carlos:${PASSW}@cluster0.cacrtoz.mongodb.net/meanApp`)
-  .then(() => {
-    console.log("Connected to DB!");
-  })
-  .catch(() => {
-    console.log("Connection failed!");
-  });
+.connect(`mongodb+srv://carlos:${PASSW}@cluster0.cacrtoz.mongodb.net/meanApp`)
+.then(() => {
+  console.log("Connected to DB!");
+})
+.catch(() => {
+  console.log("Connection failed!");
+});
 
-// Middleware to parse JSON-encoded bodies
+//=================================================== APPLICATION ====================================================//
+/* Middleware to parse JSON-encoded bodies */
 app.use(bodyParser.json());
-// Middleware to parse URL-encoded bodies
+
+/* Middleware to parse URL-encoded bodies */
 app.use(bodyParser.urlencoded({ extended: false }));
 
 /* CORS - Cross-Origin Resource Sharing */
@@ -71,70 +72,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// ===================================================================== GET ONE
-app.get("/api/posts/:id", (req, res, next) => {
-  Post.findById(req.params.id).then((post) => {
-    if (post) {
-      res.status(200).json(post);
-    } else {
-      res.status(404).json({ message: "Post not found!" });
-    }
-  });
-});
-
-// ======================================================================== POST
-app.post("/api/posts", (req, res, next) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-  });
-  console.log(post);
-  // POST
-  // Mongoose will create the right quety for inserting the right query
-  post.save().then((createdPostResult) => {
-    // Respond with 201 status and success message
-    res.status(201).json({
-      message: "The new post was added successfully to the MongoDB database!",
-      postId: createdPostResult._id,
-    });
-  });
-});
-
-// ========================================================================= PUT
-app.put("/api/posts/:id", (req, res, next) => {
-  const post = new Post({
-    _id: req.body.id,
-    title: req.body.title,
-    content: req.body.content,
-  });
-
-  Post.updateOne({ _id: req.params.id }, post).then((result) => {
-    console.log(result);
-    res.status(200).json({ message: "Update successful!" });
-  });
-});
-
-// ===================================================================== GET ALL
-// Middleware to handle GET requests to the /api/posts route
-app.get("/api/posts", (req, res, next) => {
-  Post.find().then((documents) => {
-    // Respond with status 200 (OK) and send the posts as JSON
-    res.status(200).json({
-      message: "Posts fetched successfully from the MongoDB database!",
-      posts: documents,
-    });
-  });
-  // No need for next() as this is the last middleware in the chain for this route
-});
-
-// ================================================================== DELETE ONE
-app.delete("/api/posts/:id", (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id }).then((result) => {
-    console.log(result);
-    // then also send the response
-    res.status(200).json({ message: "Post deleted on server!" });
-  });
-});
+/* ROUTES */
+app.use("/api/posts", postRoutes);
 
 // Export the Express app instance for use in other parts of the application
 module.exports = app;
