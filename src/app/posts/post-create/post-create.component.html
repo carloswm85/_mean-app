@@ -9,8 +9,9 @@
   Form explanation: https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/learn/lecture/10416268#overview
 -->
 <mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
   <!-- FORM: #postForm="ngForm" gives access to the entire form -->
-  <form (submit)="onSavePost(postForm)" #postForm="ngForm">
+  <form (submit)="onSavePost(postForm)" #postForm="ngForm" *ngIf="!isLoading">
     <mat-card-header>
       <mat-card-title>POST</mat-card-title>
     </mat-card-header>

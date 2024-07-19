@@ -1,4 +1,6 @@
-<mat-accordion *ngIf="posts.length > 0">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<mat-accordion *ngIf="posts.length > 0 && !isLoading">
   <mat-expansion-panel
     (opened)="panelOpenState.set(true)"
     (closed)="panelOpenState.set(false)"
@@ -10,7 +12,8 @@
         <b>{{ post.title | uppercase }}</b>
       </mat-panel-title>
       <mat-panel-description>
-        Currently: {{ panelOpenState() ? "Open" : "Closed" }} (id: {{ post.id }})
+        Currently: {{ panelOpenState() ? "Open" : "Closed" }} (id:
+        {{ post.id }})
       </mat-panel-description>
     </mat-expansion-panel-header>
     <!-- 2 -->
@@ -19,11 +22,13 @@
     <!-- BUTTONS -->
     <mat-action-row>
       <a mat-button color="accent" [routerLink]="['/edit', post.id]">EDIT</a>
-      <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+      <button mat-button color="warn" (click)="onDelete(post.id)">
+        DELETE
+      </button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 
-<p class="mat-body-1 info-text" *ngIf="posts.length <= 0">
+<p class="mat-body-1 info-text" *ngIf="posts.length <= 0 && !isLoading">
   No Posts Added Yet!
 </p>
