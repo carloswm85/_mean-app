@@ -3,6 +3,9 @@ import { Post } from './post.model';
 import { map, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
+/* It adds information about the client route we are currently on */
+import { Router } from '@angular/router';
+
 /**
  * The @Injectable decorator marks this class as one that participates in the
  * dependency injection system. The 'providedIn: root' syntax means that
@@ -24,7 +27,7 @@ export class PostsService {
    *
    * @param http The HttpClient instance for making HTTP requests.
    */
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   // =================================================================== GET ONE
   /**
@@ -100,6 +103,7 @@ export class PostsService {
         console.log('oya', newPost);
         // `next` emits a new value
         this.postsUpdated.next([...this.posts]);
+        this.router.navigate(['/']);
       });
     return newPost;
   }
@@ -109,7 +113,15 @@ export class PostsService {
     const updatedPost: Post = { id: id, title: title, content: content };
     await this.http
       .put('http://localhost:3000/api/posts/' + id, updatedPost)
-      .subscribe((response) => console.log(response));
+      .subscribe(response => {
+        console.log(response);
+        const updatedPosts = [...this.posts];
+        const oldPostIndex = updatedPosts.findIndex(p => p.id === updatedPost.id);
+        updatedPosts[oldPostIndex] = updatedPost;
+        this.posts = updatedPosts;
+        this.postsUpdated.next([...this.posts]);
+        this.router.navigate(['/']);
+      });
 
     return updatedPost;
   }

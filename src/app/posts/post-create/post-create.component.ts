@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 
 /* It adds information about the client route we are currently on */
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { MaterialModule } from '../../material/material.module';
 import { CommonModule } from '@angular/common';
@@ -27,7 +27,6 @@ export class PostCreateComponent implements OnInit {
   constructor(
     public postsService: PostsService,
     public route: ActivatedRoute,
-    private router: Router
   ) {}
 
   // ================================================================ LIFE CYCLE
@@ -70,6 +69,5 @@ export class PostCreateComponent implements OnInit {
         form.value.content
       );
     }
-    this.router.navigate(['/']);
   }
 }
