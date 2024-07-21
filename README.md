@@ -1,4 +1,6 @@
 - [Content](#content)
+- [How to Run](#how-to-run)
+- [App Screenshots](#app-screenshots)
 - [MeanApp](#meanapp)
   - [Development server](#development-server)
   - [Code scaffolding](#code-scaffolding)
@@ -13,7 +15,23 @@
 
 - MEAN Course [📺](https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/learn/lecture/13914132#overview)
 - Angular Material [📺](https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/learn/lecture/10416244#overview)
-- `Observables` explanation [📺](https://www.udemy.com/course/angular-2-and-nodejs-the-practical-guide/learn/lecture/10416282#overview)
+
+---
+
+# How to Run
+
+1. Run Angular app: `ctrl + shift + D`
+2. Run Express server: `npm run server`
+3. Check local Mongo database: `mongosh`
+
+Kill port: `npx kill-port 4200`
+
+---
+
+# App Screenshots
+
+![alt text](image.png)
+![alt text](image-1.png)
 
 ---
 

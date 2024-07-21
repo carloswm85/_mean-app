@@ -13,15 +13,21 @@ const postRoutes = require("./routes/posts");
 const app = express();
 
 //===================================================== SET UP =======================================================//
+let isLocalhost = false;
+let databaseUrl = isLocalhost
+  ? "mongodb://localhost:27017/meanApp"
+  : `mongodb+srv://carlos:${PASSW}@cluster0.cacrtoz.mongodb.net/meanApp`;
 /* Connection to Atlas MongoDB */
 mongoose
-.connect(`mongodb+srv://carlos:${PASSW}@cluster0.cacrtoz.mongodb.net/meanApp`)
-.then(() => {
-  console.log("Connected to DB!");
-})
-.catch(() => {
-  console.log("Connection failed!");
-});
+  .connect(databaseUrl)
+  .then(() => {
+    console.log("Connected to DB!");
+  })
+  .catch(() => {
+    console.log("Connection failed!");
+  });
+
+console.log('Database is local:', isLocalhost);
 
 //=================================================== APPLICATION ====================================================//
 /* Middleware to parse JSON-encoded bodies */
